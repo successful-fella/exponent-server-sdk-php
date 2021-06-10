@@ -32,9 +32,9 @@ class Expo
      *
      * @param ExpoRegistrar $expoRegistrar
      */
-    public function __construct(ExpoRegistrar $expoRegistrar)
+    public function __construct()
     {
-        $this->registrar = $expoRegistrar;
+        // $this->registrar = $expoRegistrar;
     }
 
     /**
@@ -45,7 +45,7 @@ class Expo
      */
     public static function normalSetup()
     {
-        return new self(new ExpoRegistrar(new ExpoFileDriver()));
+        // return new self(new ExpoRegistrar(new ExpoFileDriver()));
     }
 
     /**
@@ -86,16 +86,9 @@ class Expo
      *
      * @return array|bool
      */
-    public function notify(array $interests, array $data, $debug = false)
+    public function notify(array $recipients, array $data, $debug = false)
     {
         $postData = [];
-
-        if (count($interests) == 0) {
-            throw new ExpoException('Interests array must not be empty.');
-        }
-
-        // Gets the expo tokens for the interests
-        $recipients = $this->registrar->getInterests($interests);
 
         foreach ($recipients as $token) {
             $postData[] = $data + ['to' => $token];
